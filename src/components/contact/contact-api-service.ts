@@ -1,6 +1,6 @@
 import * as angular from "angular";
 import { IService, IProvider } from "restangular";
-import { ContactApiConfig } from "./contact-constants";
+import { ContactApiConfig } from "../../app-constants";
 import { Base64 } from "js-base64";
 
 const buildCredentials = (): string => {

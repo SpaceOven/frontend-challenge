@@ -1,80 +1,102 @@
 import * as angular from "angular";
 import { ContactService } from "../contact-service";
 import { Contact } from "../contact";
-import { StateParams } from "@uirouter/angularjs";
-import { ContactViewMessages } from "../contact-constants";
+import { StateParams, StateService } from "@uirouter/angularjs";
+import {ContactValidationMessages, 
+        ContactViewMessages, 
+        LoadingMessages,
+        RemoveContactModalMessages} from "../../../app-constants";
 import { LoadingService } from "../../../shared/loading-screen/loading-service";
+import { ErrorDialogService } from "../../../shared/error-dialog/error-dialog-service";
 
 interface ContactFormScope extends ng.IScope {
     contact: Contact;
     messages: any;
+    validationMessages: any;
     isSaving: boolean;
     initDelete(event: any): void;
+    save(contactForm: ng.IFormController, contact: Contact): void;
 }
 
 class ContactFormController {
     
     constructor(private $stateParams: StateParams,
+                private $state: StateService,
                 private $scope: ContactFormScope,
+                private errorDialogService: ErrorDialogService,
                 private loadingService: LoadingService,
                 private $mdDialog: ng.material.IDialogService,
                 private contactService: ContactService) {
 
         this.$scope.messages = ContactViewMessages;
+        this.$scope.validationMessages = ContactValidationMessages;
         this.$scope.initDelete = this.initDelete;
+        this.$scope.save = this.save;
         
-        loadingService.start()
-        this.contactService.fetchOne($stateParams.id)
-            .then((contact: Contact) => {
-                this.$scope.contact = contact;
-            }).catch((error: any) => {
-                console.log("ERRÃO");
-                if (error.message) {
-
-                }
-            }).then(loadingService.stop);
+        if ($stateParams.id) {
+            loadingService.start()
+            this.contactService.fetchOne($stateParams.id)
+                .then((contact: Contact) => {
+                    this.$scope.contact = contact;
+                }).catch((error: Error) => {
+                    this.loadingService.stop();
+                    // Há um problema com o restangular onde a response é transformada no caminho.
+                    // this.errorDialogService.displayError(error).then(this.goHome);
+                }).then(this.loadingService.stop);
+        } else {
+            this.$scope.contact = new Contact();
+        }
     }
 
     public initDelete = (event: any) => {
         var confirm: ng.material.IConfirmDialog = this.$mdDialog.confirm()
-              .title("Delete Contact")
-              .textContent("Are you sure you want to delete this contact?")
-              .ariaLabel("Lucky day")
+              .title(RemoveContactModalMessages.TITLE)
+              .textContent(RemoveContactModalMessages.TEXT_CONTENT)
               .targetEvent(event)
-              .ok("Confirm")
-              .cancel("Cancel");    
+              .ok(RemoveContactModalMessages.CONFIRM)
+              .cancel(RemoveContactModalMessages.CANCEL);
         this.$mdDialog.show(confirm).then(() => {
-            this.loadingService.start()
-            this.doDelete(this.$scope.contact)
-                .then(this.loadingService.stop);
+            this.doDelete(this.$scope.contact);
         });
     }
 
-    public save = (contact: Contact) => {
-        this.toggleIsSaving();
-        if (contact.id) {
+    public save = (contactForm: ng.IFormController, contact: Contact) => {
+        if (contact.id && contactForm.$valid) {
             this.doUpdate(contact);
+        } else if (contactForm.$valid) {
+            this.doSave(contact);
         }
-        this.doSave(contact);
     }
 
     private doSave(contact: Contact) {
+        this.loadingService.start(LoadingMessages.SAVING_NEW_CONTACT);
         this.contactService.create(contact)
+            .then(this.goHome)
             .catch((error: any) => {
-
-            }).then(this.toggleIsSaving)
+                console.log("É possível");
+                this.loadingService.stop();
+                this.errorDialogService.displayError(error);
+            })
     }
 
     private doUpdate(contact: Contact) {
-        return this.contactService.update(contact);
+        this.loadingService.start(LoadingMessages.UPDATING_CONTACT);
+        this.contactService.update(contact)
+            .then(this.goHome)
+            .catch((error: any) => {
+                this.loadingService.stop();
+                this.errorDialogService.displayError(error);
+            });
     }   
     
-    private doDelete(contact: Contact): Promise<any> {
-        return this.contactService.delete(contact);
+    private doDelete(contact: Contact) {
+        this.loadingService.start(LoadingMessages.REMOVING_CONTACT);
+        this.contactService.delete(contact)
+            .then(this.goHome);;
     }
 
-    private toggleIsSaving = () => {
-        this.$scope.isSaving = !this.$scope.isSaving;
+    private goHome = () => {
+        this.$state.go("home");
     }
 }
 

@@ -2,35 +2,59 @@
 <div layout="column" ng-cloak class="md-inline-form">
     <md-content layout-padding>
         <div>
-            <form name="userForm">
+            <form name="contactForm">
                 <div layout="column">
                     <md-input-container class="md-block" ng-disabled="isSaving">
-                        <label>{{messages.CONTACT_NAME}}</label>
-                        <input ng-model="contact.name">
+                        <label>{{ messages.CONTACT_NAME }}</label>
+                        <input ng-model="contact.name" name="name" ng-maxlength="100" ng-required="true">
+                        <div ng-if="contactForm.name.$invalid && (contactForm.$submitted || contactForm.name.$touched)"  
+                            ng-messages="contactForm.name.$error">
+                            <div ng-message="required" ng-show="contactForm.name.$error.required">
+                                {{ validationMessages.REQUIRED_FIELD }}
+                            </div>
+                            <div ng-message="maxlength" ng-show="contactForm.name.$error.maxlength">
+                                {{ validationMessages.INVALID_NAME }}
+                            </div>
+                        </div>
                     </md-input-container>
                     <md-input-container class="md-block" ng-disabled="isSaving">
-                        <label>{{messages.CONTACT_EMAIL}}</label>
-                        <input ng-model="contact.email">
+                        <label>{{ messages.CONTACT_EMAIL }}</label>
+                        <input ng-model="contact.email" name="email" ng-pattern="/^.+@.+\..+$/" ng-required="true">
+                        <div ng-if="contactForm.email.$invalid && (contactForm.$submitted || contactForm.email.$touched)"
+                            ng-messages="contactForm.email.$error">
+                            <div ng-message="required" ng-show="contactForm.email.$error.required">
+                                {{ validationMessages.REQUIRED_FIELD }}
+                            </div>
+                            <div ng-message="pattern" ng-show="contactForm.email.$error.pattern">
+                                {{ validationMessages.INVALID_EMAIL }}
+                            </div>
+                        </div>
                     </md-input-container>
                     <md-input-container class="md-block" ng-disabled="isSaving">
-                        <label>{{messages.CONTACT_PHONE}}</label>
-                        <input ng-model="contact.phone">
+                        <label>{{ messages.CONTACT_PHONE }}</label>
+                        <input ng-model="contact.phone" name="phone" ng-pattern="/^[(][0-9]{2}[)] [0-9]{4,5}-[0-9]{4}$/">
+                        <div ng-if="contactForm.phone.$invalid && (contactForm.$submitted || contactForm.phone.$touched)" 
+                            ng-messages="contactForm.phone.$error">
+                            <div ng-message="pattern" ng-show="contactForm.phone.$error.pattern">
+                                {{ validationMessages.INVALID_PHONE }}
+                            </div>
+                        </div>
                     </md-input-container>
                     <md-input-container class="md-block" ng-disabled="isSaving">
-                        <label>{{messages.CONTACT_TWITTER}}</label>
-                        <input ng-model="contact.twitter">
+                        <label>{{ messages.CONTACT_TWITTER }}</label>
+                        <input ng-model="contact.twitter" name="twitter" ng-pattern="/^https\:\/\/twitter\.com\/[\S]{1,100}$/">
+                        <div ng-if="contactForm.twitter.$invalid && (contactForm.$submitted || contactForm.twitter.$touched)" 
+                            ng-messages="contactForm.twitter.$error">
+                            <div ng-message="pattern" ng-show="contactForm.twitter.$error.pattern">
+                                {{ validationMessages.INVALID_TWITTER }}
+                            </div>
+                        </div>
                     </md-input-container>
-                </div>
-                <div class="progress-box container" ng-show="isSaving">
-                    <md-progress-linear md-mode="indeterminate"></md-progress-linear>
-                    <div class="bottom-block">
-                        <span>{{ contact.id ? 'Updating information, please wait....' : 'Saving the new contact, please wait...'}}</span>
-                    </div>
                 </div>
                 <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-                    <md-button class="md-raised" ui-sref="home">{{messages.CANCEL}}</md-button>
-                    <md-button ng-show="contact.id" class="md-raised md-warn" ng-click="initDelete($event)">{{messages.DELETE}}</md-button>
-                    <md-button class="md-raised md-primary" ng-click="save(contact)">{{messages.SAVE}}</md-button>                    
+                    <md-button class="md-raised" ui-sref="home">{{ messages.CANCEL }}</md-button>
+                    <md-button ng-show="contact.id" class="md-raised md-warn" ng-click="initDelete($event)">{{ messages.DELETE }}</md-button>
+                    <md-button type="submit" class="md-raised md-primary" ng-click="save(contactForm, contact)">{{ messages.SAVE }}</md-button>                    
                 </section>
             </form>    
         <div>

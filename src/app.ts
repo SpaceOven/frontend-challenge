@@ -8,6 +8,7 @@ appModule.config((
             $mdIconProvider: angular.material.IIconProvider, 
             $mdThemingProvider: angular.material.IThemingProvider,
             $stateProvider: any, 
+            $httpProvider: ng.IHttpProvider,
             $urlRouterProvider: any) => {
         $stateProvider
         .state("home", {
@@ -32,18 +33,10 @@ appModule.config((
         $urlRouterProvider.otherwise('/home')
 
         $mdIconProvider
-            .defaultIconSet("./svg/avatars.svg", 128)
-            .icon("menu", "./svg/menu.svg", 18)
-            .icon("add", "./svg/ic_add_circle_white_18px.svg", 18)
-            .icon("save", "./svg/ic_cloud_done_white_18px.svg", 18)
-            .icon("error", "./svg/ic_error_white_18px.svg", 18)
             .icon("feedback", "./svg/ic_feedback_white_18px.svg", 18)
             .icon("home", "./svg/ic_home_white_18px.svg", 18)
-            .icon("details", "./svg/ic_info_white_18px.svg", 18)
-            .icon("add_info", "./svg/ic_note_add_white_18px.svg", 18)
             .icon("add_contact", "./svg/ic_person_add_white_18px.svg", 18)
             .icon("contact", "./svg/ic_person_white_18px.svg", 18)
-            .icon("remove", "./svg/ic_remove_circle_white_18px.svg", 18)
             .icon("email", "./svg/ic_email_white_18px.svg", 18)
             .icon("contact_dark", "./svg/ic_person_black_18px.svg", 18)
             .icon("contact_dark_big", "./svg/ic_person_black_48px.svg", 48)
@@ -55,7 +48,6 @@ appModule.config((
             .accentPalette("grey");
     }
 );
-
 appModule.run(($rootScope: angular.IRootScopeService) => {
     
 });

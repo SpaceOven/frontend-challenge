@@ -7,9 +7,10 @@ module.exports = {
   entry: {
         app: [
           "./src/app.ts",
+          "./src/app-constants.ts",
           "./src/shared/response-utils.ts",
+          "./src/shared/error-dialog/error-dialog-service.ts",
           "./src/shared/loading-screen/loading-service.ts",
-          "./src/components/contact/contact-constants.ts",
           "./src/components/contact/contact-api-service.ts",
           "./src/components/contact/contact-service.ts",
           "./src/components/contact/form/contact-form-controller.ts",
@@ -25,6 +26,7 @@ module.exports = {
           "angular-material",
           "angular-messages",
           "angular-sanitize",
+          "lodash",
         ],
       },
   output: {

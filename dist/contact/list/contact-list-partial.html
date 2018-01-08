@@ -1,10 +1,9 @@
 <div>
-    <md-button class="md-fab md-mini md-primary" aria-label="{{messages.CREATE_CONTACT}}">
+    <md-button class="md-fab md-mini md-primary" aria-label="{{messages.CREATE_CONTACT}}" ui-sref="createContact">
         <md-icon md-svg-icon="add_contact"></md-icon>
     </md-button>
 </div>
 <md-content class="md-padding" layout-xs="column" layout="row">    
-    
         <md-card flex-xs flex-gt-xs="50" layout="column" ng-repeat="contact in contacts" >
             <md-card-title>
                 <md-card-title-media class="contact-card">
@@ -22,5 +21,4 @@
                 <md-button class="md-primary" ui-sref="updateContact({id: contact.id})">{{messages.DETAILS}}</md-button>
             </md-card-actions>
         </md-card>
-    
 </md-content>

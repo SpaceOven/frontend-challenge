@@ -1,10 +1,15 @@
 import * as angular from "angular";
+import { LoadingMessages } from "../../app-constants";
 
 export class LoadingService {
     constructor(private $mdDialog: ng.material.IDialogService) {}
 
-    public start = (message?: string) => {
+    public start = (message = LoadingMessages.DEFAULT) => {
       this.$mdDialog.show({
+        locals: { message },
+        controller: ($scope, message) => { 
+          $scope.message = message;
+        },
         templateUrl: "./loading-screen/loading-template.html",
         parent: angular.element(document.body),
         clickOutsideToClose: false,
