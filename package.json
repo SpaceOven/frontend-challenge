@@ -1,0 +1,39 @@
+{
+  "name": "frontend-challenge",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": {
+    "name": "Edmilson de Souza"
+  },
+  "scripts": {
+    "build": "rimraf dist && webpack -p",
+    "start": "webpack-dev-server"
+  },
+  "devDependencies": {
+    "@types/angular": "1.6.40",
+    "@types/angular-material": "1.1.57",
+    "@types/restangular": "1.5.42",
+    "awesome-typescript-loader": "3.2.3",
+    "typescript": "2.5.3",
+    "webpack": "2.2.0",
+    "webpack-dev-server": "2.2.0",
+    "copy-webpack-plugin": "4.3.1",
+    "minimatch": "3.0.4",
+    "html-loader": "0.5.4",
+    "css-loader": "0.28.8",
+    "rimraf": "2.6.2",
+    "webpack-vendor-chunk-plugin": "1.0.0"
+  },
+  "dependencies": {
+    "angular": "1.6.8",
+    "@uirouter/angularjs": "1.0.7",
+    "restangular": "1.6.1",
+    "js-base64": "2.4.0",
+    "@angular/material": "5.0.3",
+    "angular-animate": "1.6.8",
+    "angular-aria": "1.6.8",
+    "angular-material": "1.1.5",
+    "angular-messages": "1.6.8",
+    "angular-sanitize": "1.6.8"
+  }
+}

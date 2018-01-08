@@ -1,0 +1,38 @@
+<h2>{{contact.id ? messages.UPDATE_CONTACT : messages.CREATE_CONTACT}}</h2>
+<div layout="column" ng-cloak class="md-inline-form">
+    <md-content layout-padding>
+        <div>
+            <form name="userForm">
+                <div layout="column">
+                    <md-input-container class="md-block" ng-disabled="isSaving">
+                        <label>{{messages.CONTACT_NAME}}</label>
+                        <input ng-model="contact.name">
+                    </md-input-container>
+                    <md-input-container class="md-block" ng-disabled="isSaving">
+                        <label>{{messages.CONTACT_EMAIL}}</label>
+                        <input ng-model="contact.email">
+                    </md-input-container>
+                    <md-input-container class="md-block" ng-disabled="isSaving">
+                        <label>{{messages.CONTACT_PHONE}}</label>
+                        <input ng-model="contact.phone">
+                    </md-input-container>
+                    <md-input-container class="md-block" ng-disabled="isSaving">
+                        <label>{{messages.CONTACT_TWITTER}}</label>
+                        <input ng-model="contact.twitter">
+                    </md-input-container>
+                </div>
+                <div class="progress-box container" ng-show="isSaving">
+                    <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+                    <div class="bottom-block">
+                        <span>{{ contact.id ? 'Updating information, please wait....' : 'Saving the new contact, please wait...'}}</span>
+                    </div>
+                </div>
+                <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                    <md-button class="md-raised" ui-sref="home">{{messages.CANCEL}}</md-button>
+                    <md-button ng-show="contact.id" class="md-raised md-warn" ng-click="initDelete($event)">{{messages.DELETE}}</md-button>
+                    <md-button class="md-raised md-primary" ng-click="save(contact)">{{messages.SAVE}}</md-button>                    
+                </section>
+            </form>    
+        <div>
+    </md-content>            
+</div>
