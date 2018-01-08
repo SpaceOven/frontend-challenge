@@ -33,11 +33,8 @@ appModule.config((
         $urlRouterProvider.otherwise('/home')
 
         $mdIconProvider
-            .icon("feedback", "./svg/ic_feedback_white_18px.svg", 18)
             .icon("home", "./svg/ic_home_white_18px.svg", 18)
             .icon("add_contact", "./svg/ic_person_add_white_18px.svg", 18)
-            .icon("contact", "./svg/ic_person_white_18px.svg", 18)
-            .icon("email", "./svg/ic_email_white_18px.svg", 18)
             .icon("contact_dark", "./svg/ic_person_black_18px.svg", 18)
             .icon("contact_dark_big", "./svg/ic_person_black_48px.svg", 48)
             ;
